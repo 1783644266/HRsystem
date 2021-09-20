@@ -1,29 +1,29 @@
 <template>
-  <div class="navbar">
+  <div class="navbar" :style="{'backgroundColor': variables.menuBg}">
     <hamburger :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
-
-    <breadcrumb class="breadcrumb-container" />
+    <div class="title">
+      人力资源管理系统
+    </div>
+    <!-- <breadcrumb class="breadcrumb-container" /> -->
 
     <div class="right-menu">
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
-          <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar">
-          <i class="el-icon-caret-bottom" />
+          <img :src="userInfo.staffPhoto" class="user-avatar">
+          <span class="name">{{userInfo.username}}</span>
+          <i class="el-icon-caret-bottom" style="color:#fff"/>
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
           <router-link to="/">
             <el-dropdown-item>
-              Home
+              首页
             </el-dropdown-item>
           </router-link>
-          <a target="_blank" href="https://github.com/PanJiaChen/vue-admin-template/">
-            <el-dropdown-item>Github</el-dropdown-item>
-          </a>
-          <a target="_blank" href="https://panjiachen.github.io/vue-element-admin-site/#/">
-            <el-dropdown-item>Docs</el-dropdown-item>
+          <a target="_blank" href="https://github.com/1783644266/HRsystem">
+            <el-dropdown-item>项目地址</el-dropdown-item>
           </a>
           <el-dropdown-item divided @click.native="logout">
-            <span style="display:block;">Log Out</span>
+            <span style="display:block;">退出登录</span>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -33,19 +33,24 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import Breadcrumb from '@/components/Breadcrumb'
-import Hamburger from '@/components/Hamburger'
+// import Breadcrumb from '@/components/Breadcrumb'
+import Hamburger from '@/components/Hamburger';
+import variables from '@/styles/variables.scss';
 
 export default {
   components: {
-    Breadcrumb,
+    // Breadcrumb,
     Hamburger
   },
   computed: {
     ...mapGetters([
       'sidebar',
-      'avatar'
-    ])
+      'avatar',
+      'userInfo'
+    ]),
+    variables() {
+      return variables
+    }
   },
   methods: {
     toggleSideBar() {
@@ -64,9 +69,8 @@ export default {
   height: 50px;
   overflow: hidden;
   position: relative;
-  background: #fff;
   box-shadow: 0 1px 4px rgba(0,21,41,.08);
-
+  color: #fff;
   .hamburger-container {
     line-height: 46px;
     height: 100%;
@@ -80,8 +84,9 @@ export default {
     }
   }
 
-  .breadcrumb-container {
+  .title {
     float: left;
+    line-height: 50px;
   }
 
   .right-menu {
@@ -98,7 +103,7 @@ export default {
       padding: 0 8px;
       height: 100%;
       font-size: 18px;
-      color: #5a5e66;
+      color: #fff;
       vertical-align: text-bottom;
 
       &.hover-effect {
@@ -115,21 +120,28 @@ export default {
       margin-right: 30px;
 
       .avatar-wrapper {
-        margin-top: 5px;
         position: relative;
-
         .user-avatar {
           cursor: pointer;
-          width: 40px;
-          height: 40px;
-          border-radius: 10px;
+          width: 30px;
+          height: 30px;
+          border-radius: 15px;
+          vertical-align: middle;
         }
-
+        .name {
+          color: #fff;
+          vertical-align: middle;
+          margin-left:5px;
+        }
+        .user-dropdown {
+          color: #fff;
+        }
         .el-icon-caret-bottom {
           cursor: pointer;
           position: absolute;
           right: -20px;
-          top: 25px;
+          top: 50%;
+          transform: translateY(-50%);
           font-size: 12px;
         }
       }

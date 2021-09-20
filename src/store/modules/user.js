@@ -1,8 +1,9 @@
-import { getToken, setToken, removeToken, } from "@/utils/auth"
-import { login, } from '@/api/user'
+import { getToken, setToken, removeToken } from "@/utils/auth"
+import { login, getUserInfo, getUserDetailById } from '@/api/user'
 
 const state = {
   token: getToken(),
+  userInfo: {}
 }
 
 const mutations = {
@@ -13,16 +14,32 @@ const mutations = {
   removeToken(state) {
     state.token = null;
     removeToken();
+  },
+  setUserInfo(state, userInfo) {
+    state.userInfo = {...userInfo} //触发更新
+  },
+  removeUserInfo(state) {
+    state.userInfo = {}
   }
+  
 }
 
 const actions = {
   async login(context, info) {
-    const {data} = await login(info)
-    if(data.success) context.commit('setToken', data.data)
-    
+    const data = await login(info)
+    context.commit('setToken', data)
+  },
+  async getUserInfo(context) {
+    const res = await getUserInfo()
+    const imgUrl = await getUserDetailById(res.userId) 
+    const baseData = {...res, ...imgUrl}
+    context.commit('setUserInfo', baseData)
+    return baseData
+  },
+  logout(context) {
+    context.commit('removeToken')
+    context.commit('removeUserInfo')
   }
-
 }
 
 export default {

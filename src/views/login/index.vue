@@ -101,8 +101,13 @@ export default {
       this.$refs.loginForm.validate(async valid => {
         if (valid) {
           this.loading = true
-          this.$store.dispatch('user/login', this.loginForm)
-
+          try {
+            await this.$store.dispatch('user/login', this.loginForm)
+            this.$router.replace('/')
+          } catch(e) {
+            console.log(e);
+          }
+          this.loading = false
         } else {
           console.log('error submit!!')
           return false
@@ -175,9 +180,9 @@ $dark_gray:#889aa4;
 $light_gray:#68b0fe;
 
 .login-container {
-  height: 100%;
   background-image: url('~@/assets/common/login.jpg'); // 设置背景图片
   background-position: center; // 将图片位置设置为充满整个屏幕
+  height: 100%;
   .login-form {
     position: relative;
     width: 520px;

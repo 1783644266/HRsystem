@@ -21,7 +21,7 @@ export default {
   watch: {
     $route() {
       this.getBreadcrumb()
-    }
+    }//监听路由变动
   },
   created() {
     this.getBreadcrumb()
@@ -30,13 +30,15 @@ export default {
     getBreadcrumb() {
       // only show routes with meta.title
       let matched = this.$route.matched.filter(item => item.meta && item.meta.title)
+      //获取当前路由的全部信息，将带有title的提取
       const first = matched[0]
 
       if (!this.isDashboard(first)) {
         matched = [{ path: '/dashboard', meta: { title: 'Dashboard' }}].concat(matched)
-      }
+      }//第一项不是首页，加上首页标题
 
       this.levelList = matched.filter(item => item.meta && item.meta.title && item.meta.breadcrumb !== false)
+      //将用户是否设置不显示的路由剥离
     },
     isDashboard(route) {
       const name = route && route.name
@@ -49,6 +51,7 @@ export default {
       // To solve this problem https://github.com/PanJiaChen/vue-element-admin/issues/561
       const { params } = this.$route
       var toPath = pathToRegexp.compile(path)
+      //'/user/:id/:name'中间是参数的情况，用pathToRegexp.compile(path)(params)快速填充
       return toPath(params)
     },
     handleLink(item) {

@@ -7,3 +7,17 @@ export function login(data) {
     data
   })
 }//登录接口
+
+export function getUserInfo() {
+  return service({
+    url: `/sys/profile`,
+    method: 'post',
+  })
+}//登录接口
+
+export function getUserDetailById(id) {
+  return service({
+    url: `/sys/user/${id}`,
+    method: 'get'
+  })
+}
