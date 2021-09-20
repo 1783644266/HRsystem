@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { Message } from 'element-ui';
 import store from '@/store';
+import router from '@/router';
+import { getTimeKey } from '@/utils/auth'
 
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API,
@@ -9,6 +11,11 @@ const service = axios.create({
 
 service.interceptors.request.use( config => {
   if(store.getters.token) {
+    if(checkTokenTime()) {
+      store.dispatch('user/logout')
+      router.replace('/login')
+      return Promise.reject(new Error('令牌超时，请重新登陆！'))
+    }
     config.headers['Authorization'] = `Bearer ${store.getters.token}`
   }
   return config
@@ -29,6 +36,9 @@ service.interceptors.response.use( response => {
   return Promise.reject(error)
 })
 
+function checkTokenTime() {
+  return (Date.now() - getTimeKey()) / 1000 > 3600 //1小时过期
+}
 export default service;
 
 

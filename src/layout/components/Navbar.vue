@@ -9,7 +9,7 @@
     <div class="right-menu">
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
-          <img :src="userInfo.staffPhoto" class="user-avatar">
+          <img v-imgError="defaultImg" :src="userInfo.staffPhoto" class="user-avatar">
           <span class="name">{{userInfo.username}}</span>
           <i class="el-icon-caret-bottom" style="color:#fff"/>
         </div>
@@ -38,6 +38,11 @@ import Hamburger from '@/components/Hamburger';
 import variables from '@/styles/variables.scss';
 
 export default {
+  data() {
+    return {
+      defaultImg: require('@/assets/common/head.jpg')//以require引入防止因环境变化出错
+    }
+  },
   components: {
     // Breadcrumb,
     Hamburger
@@ -58,7 +63,7 @@ export default {
     },
     async logout() {
       await this.$store.dispatch('user/logout')
-      this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+      this.$router.push(`/login`)
     }
   }
 }
