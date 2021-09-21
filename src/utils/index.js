@@ -115,3 +115,17 @@ export function param2Obj(url) {
   })
   return obj
 }
+
+export function array2Tree(list, identification) {
+  var arr = []
+  list.forEach(e => {
+    if(e.pid == identification) {
+      const children = array2Tree(list, e.id)
+      if(children.length) {
+        e.children = children
+      }
+      arr.push(e)
+    }
+  })
+  return arr
+} 

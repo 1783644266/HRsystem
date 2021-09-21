@@ -7,9 +7,10 @@ export default {
   children: [
     {
       path: '',
-      component: () => import('@/views/approvals/index'),
+      component: () => import('@/views/approvals'),
       meta: {
-        title: '审批'
+        title: '审批',
+        icon: 'tree-table'
       }
     },
   ]

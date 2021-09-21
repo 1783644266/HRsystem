@@ -16,7 +16,7 @@ export default {
   },
   computed: {
     isExternal() {
-      return isExternal(this.to)
+      return isExternal(this.to) //判断是否为外链
     },
     type() {
       if (this.isExternal) {

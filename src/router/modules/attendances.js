@@ -7,9 +7,10 @@ export default {
   children: [
     {
       path: '',
-      component: () => import('@/views/attendances/index'),
+      component: () => import('@/views/attendances'),
       meta: {
-        title: '考勤'
+        title: '考勤',
+        icon: 'excel'
       }
     },
   ]
