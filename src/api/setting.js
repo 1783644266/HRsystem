@@ -20,7 +20,15 @@ export function editRole(data) {
     method: 'put',
     data
   })
-}//编辑角色
+} // 编辑角色
+
+export function addRole(data) {
+  return service({
+    url: '/sys/role',
+    method: 'post',
+    data
+  })
+} // 新增角色
 
 export function getRoleInfo(id) {
   return service({

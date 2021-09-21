@@ -5,13 +5,13 @@
     @close="dialogClose">
       <el-form label-width="120px" :model="formData" :rules="rules" ref="form">
         <el-form-item label="部门名称" prop="name" >
-          <el-input style="width: 80%" v-model="formData.name" placeholder="部门名称"></el-input>
+          <el-input style="width: 80%" v-model="formData.name" placeholder="部门名称" clearable />
         </el-form-item>
         <el-form-item label="部门编码" prop="code" >
-          <el-input style="width: 80%" v-model="formData.code" placeholder="部门编码"></el-input>
+          <el-input style="width: 80%" v-model="formData.code" placeholder="部门编码" clearable />
         </el-form-item>
         <el-form-item label="部门负责人" prop="manager" >
-          <el-select style="width: 80%" @focus="getAllEmployees" v-model="formData.manager" placeholder="部门负责人">
+          <el-select style="width: 80%" @focus="getAllEmployees" clearable v-model="formData.manager" placeholder="部门负责人">
             <el-option
               v-for="item in employees"
               :key="item.id"
@@ -21,7 +21,7 @@
           </el-select>          
         </el-form-item>
         <el-form-item label="部门介绍" prop="introduce" >
-          <el-input style="width: 80%" v-model="formData.introduce" placeholder="部门介绍" type="textarea"></el-input>
+          <el-input style="width: 80%" v-model="formData.introduce" placeholder="部门介绍" type="textarea" clearable />
         </el-form-item>
       </el-form>    
     <el-row slot="footer" type="flex" justify="end">

@@ -56,10 +56,10 @@ export default {
       this.select = {...data};
       this.dialogVisible = true
     },//接收tree组件新增子部门要求
-    editDepartment(data) {
+    async editDepartment(data) {
       data.type = 'edit';
       this.select = {...data};
-      this.$refs.addDepartment.getDepartmentInfo(data.id)
+      await this.$refs.addDepartment.getDepartmentInfo(data.id)//防止回闪
       this.dialogVisible = true
     },//接收tree组件新增子部门要求
   },
