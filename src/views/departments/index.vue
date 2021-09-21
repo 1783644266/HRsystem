@@ -75,15 +75,16 @@ export default {
   height: calc(100vh - 50px);
   .app-container {
     height: 100%;
+    .tree-card {
+      height: 100%;
+      padding: 30px  140px;
+      font-size:14px;
+      overflow: auto;
+    }
   }
 }
 
-.tree-card {
-  height: 100%;
-  padding: 30px  140px;
-  font-size:14px;
-  overflow: auto;
-}
+
 
 
 </style>
