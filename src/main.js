@@ -12,7 +12,7 @@ import App from './App'
 import store from './store'
 import router from './router'
 import * as directives from '@/directives'
-
+import * as filters from '@/filters'
 import '@/icons' // icon
 import '@/permission' // permission control
 
@@ -40,7 +40,7 @@ Vue.use(ElementUI, { locale })
 Object.keys(directives).forEach(e => Vue.directive(e, directives[e]))
 //全部注册directives中指令
 
-
+Object.keys(filters).forEach(e => Vue.filter(e, filters[e]))
 
 Vue.config.productionTip = false
 

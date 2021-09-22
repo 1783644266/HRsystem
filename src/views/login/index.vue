@@ -181,7 +181,7 @@ $light_gray:#68b0fe;
 
 .login-container {
   background-image: url('~@/assets/common/login.jpg'); // 设置背景图片
-  background-position: center; // 将图片位置设置为充满整个屏幕
+  background-size: 100%;
   height: 100%;
   .login-form {
     position: relative;
