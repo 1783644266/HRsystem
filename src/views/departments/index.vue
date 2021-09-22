@@ -22,7 +22,7 @@
 
 <script >
 import treeTool from '@/components/tree-tool'
-import addDepartment from '@/components/addDepartment'
+import addDepartment from '@/components/AddDepartment'
 import { getDepartments } from '@/api/department'
 import { array2Tree } from '@/utils/index' //变换数据格式
 

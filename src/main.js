@@ -16,6 +16,9 @@ import * as directives from '@/directives'
 import '@/icons' // icon
 import '@/permission' // permission control
 
+import Component from '@/components'
+
+Vue.use(Component)
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api
@@ -36,6 +39,8 @@ Vue.use(ElementUI, { locale })
 
 Object.keys(directives).forEach(e => Vue.directive(e, directives[e]))
 //全部注册directives中指令
+
+
 
 Vue.config.productionTip = false
 

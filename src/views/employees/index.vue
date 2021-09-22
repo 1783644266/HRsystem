@@ -1,6 +1,6 @@
 <template>
   <div >
-
+    <pageTools/>
   </div>
 </template>
 
@@ -14,5 +14,6 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+
 </style>
