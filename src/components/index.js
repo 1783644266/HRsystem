@@ -1,7 +1,9 @@
-import PageTools from './PageTools'
 
 export default {
   install(Vue) {
-    Vue.component('PageTools', PageTools)
+    const requireAll = require.context(".", true, /\.vue$/)
+    requireAll.keys().forEach(e => {
+      Vue.component(e.replace(/\.\//,'').replace(/\.vue$/,'').replace(/\/index$/,''), requireAll(e).default)
+    }) // require.context 自动引入
   }
 }
