@@ -28,8 +28,6 @@
 <script >
 import Cos from 'cos-js-sdk-v5'
 var cos = new Cos({
-  SecretId: 'AKID4yd7MM6ankRs3yc097qLaaKwLWTBesrc',
-  SecretKey: 'g9PSGqAF5rQjmJdmiPs77sMcdOt87qJW',  
 })
 export default {
   data() {
