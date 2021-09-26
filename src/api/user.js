@@ -13,11 +13,11 @@ export function getUserInfo() {
     url: `/sys/profile`,
     method: 'post',
   })
-}//登录接口
+}// 获取登录人员基本资料
 
 export function getUserDetailById(id) {
   return service({
     url: `/sys/user/${id}`,
     method: 'get'
   })
-}
+} // 获取详细信息

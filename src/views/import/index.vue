@@ -23,7 +23,6 @@ export default {
           } else {
             employee[userRelations[key]] = e[key]
           }
-          // employee[userRelations[key]] = e[key]
         })
         return employee
       })

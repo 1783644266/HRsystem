@@ -18,6 +18,10 @@ import '@/permission' // permission control
 
 import Component from '@/components'
 
+import Print from 'vue-print-nb'
+
+Vue.use(Print);
+
 Vue.use(Component)
 /**
  * If you don't want to use mock-server

@@ -18,6 +18,16 @@
         >
           <el-table-column align="center" type="index" label="序号" width="50" />
           <el-table-column align="center" prop="username" label="姓名" sortable />
+          <el-table-column align="center"  label="头像" width="150" >
+            <template v-slot="{ row }" >
+              <img
+                style="width: 100px; height: 100px"
+                v-imgError="require('@/assets/common/head.jpg')"
+                :src="row.staffPhoto"
+                @click="showQrcode(row.staffPhoto)"
+              />
+            </template>
+          </el-table-column>
           <el-table-column align="center" prop="workNumber" label="工号" sortable />
           <el-table-column :formatter="formOfEmploymentFormatter" align="center" prop="formOfEmployment" label="聘用形式" sortable />
           <el-table-column align="center" prop="departmentName" label="部门" sortable />
@@ -57,6 +67,12 @@
       </el-card>
     </div>
     <AddEmployee :dialogVisible.sync="dialogVisible" />
+    <el-dialog
+      title="二维码"
+      :visible.sync="qrcodeVisible"
+      width="30%">
+      <canvas style="margin: 0 auto; display: block" ref="qrcode" />
+    </el-dialog>    
   </div>
 </template>
 
@@ -65,6 +81,7 @@ import { getEmployeeList, delEmployee } from '@/api/employees'
 import employeesInfo from '@/api/constant/employees'
 import AddEmployee from '@/components/AddEmployee'
 import { formatDate } from '@/filters'
+import qrcode from 'qrcode'
 
 export default {
   created() {
@@ -86,7 +103,8 @@ export default {
       ],
       loading: false,
       total: 0,
-      dialogVisible: false
+      dialogVisible: false,
+      qrcodeVisible: false
     }
   },
   methods: {
@@ -158,6 +176,16 @@ export default {
         return data
       })
       return { header, data }
+    },
+    showQrcode(url) {
+      if (url) {
+        this.qrcodeVisible = true
+        this.$nextTick(() => {
+          qrcode.toCanvas(this.$refs.qrcode, url)
+        })
+      } else {
+        this.$message.error('该用户未上传头像')
+      }
     }
   },
   components: {

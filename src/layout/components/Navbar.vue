@@ -40,7 +40,7 @@ import variables from '@/styles/variables.scss';
 export default {
   data() {
     return {
-      defaultImg: require('@/assets/common/head.jpg')//以require引入防止因环境变化出错
+      defaultImg: require('@/assets/common/head.jpg') //以require引入防止因环境变化出错
     }
   },
   components: {
