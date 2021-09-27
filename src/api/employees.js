@@ -71,3 +71,11 @@ export function updateJob(data) {
     data
   })
 } // 保存员工岗位信息
+
+export function assignRoles(data) {
+  return service({
+    url: '/sys/user/assignRoles',
+    method: 'put',
+    data
+  })
+} // 分配权限

@@ -47,7 +47,7 @@
               <el-button type="text" size="small">转正</el-button>
               <el-button type="text" size="small">调岗</el-button>
               <el-button type="text" size="small">离职</el-button>
-              <el-button type="text" size="small">角色</el-button>
+              <el-button type="text" size="small" @click="showRoleDialog(row)">角色</el-button>
               <el-button type="text" size="small" @click="delEmployee(row)">删除</el-button>
             </template>
           </el-table-column>
@@ -67,6 +67,7 @@
       </el-card>
     </div>
     <AddEmployee :dialogVisible.sync="dialogVisible" />
+    <AssignRole :roleDialog.sync="roleDialog" :userId="userId" ref="AssignRole" />
     <el-dialog
       title="二维码"
       :visible.sync="qrcodeVisible"
@@ -104,7 +105,9 @@ export default {
       loading: false,
       total: 0,
       dialogVisible: false,
-      qrcodeVisible: false
+      qrcodeVisible: false,
+      roleDialog: false,
+      userId: null
     }
   },
   methods: {
@@ -186,6 +189,11 @@ export default {
       } else {
         this.$message.error('该用户未上传头像')
       }
+    },
+    async showRoleDialog(info) {
+      this.userId = info.id
+      await this.$refs.AssignRole.getUserDetailById(info.id)
+      this.roleDialog = true
     }
   },
   components: {
