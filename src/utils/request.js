@@ -37,7 +37,7 @@ service.interceptors.response.use( response => {
 })
 
 function checkTokenTime() {
-  return (Date.now() - getTimeKey()) / 1000 > 28800 //1小时过期
+  return (Date.now() - getTimeKey()) / 1000 > 28800 //1天过期
 }
 export default service;
 

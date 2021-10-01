@@ -42,3 +42,12 @@ export function getCompanyInfo(companyId) {
     url: `/company/${companyId}`
   })
 }//获取公司信息
+
+
+export function changeRolePermission(data) {
+  return service({
+    url: `/sys/role/assignPrem`,
+    method: 'put',
+    data
+  })
+} // 更改角色权限

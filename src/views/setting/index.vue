@@ -17,7 +17,7 @@
               <el-table-column prop="description" align="center" label="描述"  min-width="200"/>
               <el-table-column align="center" label="操作"  min-width="250" >
                 <template v-slot="{row}">
-                  <el-button size="small" type="success">分配权限</el-button>
+                  <el-button size="small" type="success" @click="assignPerm(row.id)">分配权限</el-button>
                   <el-button size="small" type="primary" @click="editRole(row.id)">编辑</el-button>
                   <el-button size="small" type="danger" @click="delRole(row)">删除</el-button>
                 </template>
@@ -27,7 +27,7 @@
               <el-pagination
                 @size-change="handleSizeChange"
                 @current-change="handleCurrentChange"
-                :current-page="query.pageNum"
+                :current-page="query.page"
                 :page-sizes="[10, 20, 30, 40]"
                 :page-size="query.pageSize"
                 layout="total, sizes, prev, pager, next, jumper"
@@ -61,6 +61,7 @@
         </el-tabs>
       </el-card>
     </div>
+    <!-- 创建编辑角色 -->
     <el-dialog :title="this.roleInfo.id? '编辑角色':'新增角色'" :visible.sync="dialogVisible" @close="dialogClose">
       <el-form ref="roleForm" :model="roleInfo" :rules="rules" label-width="120px" style="width: 80%">
         <el-form-item label="角色名称" prop="name">
@@ -78,16 +79,40 @@
         </el-col>
       </el-row>
     </el-dialog>
+    <!-- 分配权限对话框 -->
+    <el-dialog
+      title="提示"
+      :visible="roleDialog"
+      @close="handleClose">
+      <el-tree
+        :data="promissionlist"
+        show-checkbox
+        default-expand-all
+        check-strictly
+        :default-checked-keys="rolePromissionList"
+        node-key="id"
+        :props="defaultProps"
+        ref="tree">
+      </el-tree>
+      <el-row type="flex" justify="end" slot="footer">
+        <el-button @click="handleClose">取 消</el-button>
+        <el-button type="primary" @click="changeRolePermission">确 定</el-button>
+      </el-row>
+    </el-dialog>
+
   </div>
 </template>
 
 <script >
-import { getRoleList, getCompanyInfo, delRole, getRoleInfo, editRole, addRole } from '@/api/setting'
+import { getRoleList, getCompanyInfo, delRole, getRoleInfo, editRole, addRole, changeRolePermission } from '@/api/setting'
+import { getPermission } from '@/api/permission'
 import { mapGetters } from 'vuex'
+import { array2Tree } from '@/utils'
 
 export default {
   created() {
     this.getRoleList()
+    this.getInfo()
   },
   mounted() {
     this.$nextTick(() => {
@@ -108,7 +133,7 @@ export default {
       },
       query: {
         pageSize: 1,
-        pageNum: 1
+        page: 1
       },
       total: 0,
       roleInfo: {
@@ -120,7 +145,13 @@ export default {
           { required: true, message: '请输入描述信息！', trigger: 'blur' }
         ]
       },
-      dialogVisible: false
+      promissionlist: [], // 权限列表
+      rolePromissionList: [], // 角色权限列表
+      defaultProps: {
+        label: 'name'
+      },
+      dialogVisible: false,
+      roleDialog: false,
     }
   },
   computed: {
@@ -135,7 +166,7 @@ export default {
       }
     },
     handleCurrentChange(val) {
-      this.query.pageNum = val
+      this.query.page = val
       this.getRoleList()
     },
     handleSizeChange(val) {
@@ -164,7 +195,7 @@ export default {
           message: '已取消删除'
         })
       }).catch(() => {})
-    }, // 删除id)角色
+    }, // 删除角色
     async editRole(id) {
       this.roleInfo = await getRoleInfo(id)
       this.dialogVisible = true
@@ -187,6 +218,29 @@ export default {
         this.$message.success('操作成功')
         this.dialogVisible = false
       })
+    },
+    handleClose() {
+      this.rolePromissionList = []
+      this.$refs.tree.setCheckedKeys([]); // 要清空！！！坑啊
+      this.roleDialog = false
+    }, // 权限对话框关闭
+    async assignPerm(id) {
+      this.roleId = id
+      const { permIds } = await getRoleInfo(id)
+      this.rolePromissionList = permIds
+      this.roleDialog = true
+    }, // 打开编辑权限对话框
+    async getInfo() {
+      this.promissionlist = array2Tree(await getPermission(), '0')
+    }, // 获取所有权限
+    async changeRolePermission() {
+      try {
+        await changeRolePermission({ id: this.roleId, permIds: this.$refs.tree.getCheckedKeys() })
+        this.$message.success('操作成功')
+        this.roleDialog = false
+      } catch(e) {
+        this.$message.error('操作失败')
+      }
     }
   }
 }
