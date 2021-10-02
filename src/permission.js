@@ -12,10 +12,16 @@ router.beforeEach(async (to, from, next) => {
       next('/') //有token不让去登录页面
     } else {
       if(!store.getters.userInfo.userId) {
-        const { roles: { menus } } = await store.dispatch('user/getUserInfo') // 登陆者的路由权限
-        const routes = await store.dispatch('permission/setRoleRoutes', menus)
-        router.addRoutes([...routes, { path: '*', redirect: '/404', hidden: true }])
-        next(to.path) // 注意重新导航
+        try {
+          const { roles: { menus } } = await store.dispatch('user/getUserInfo') // 登陆者的路由权限
+          const routes = await store.dispatch('permission/setRoleRoutes', menus)
+          router.addRoutes([...routes, { path: '*', redirect: '/404', hidden: true }])
+          next(to.path) // 注意重新导航
+        } catch (e) {
+          if (e.response.status == 401) {
+            store.dispatch('user/logout') // 登录超出后台设置的时间，让用户重新登录
+          }
+        }
       } else {
         next()
       }

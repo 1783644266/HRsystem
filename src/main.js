@@ -17,7 +17,7 @@ import '@/icons' // icon
 import '@/permission' // permission control
 
 import Component from '@/components'
-
+import permission from '@/mixin/permission'
 import Print from 'vue-print-nb'
 
 Vue.use(Print);
@@ -43,6 +43,8 @@ Vue.use(ElementUI, { locale })
 
 Object.keys(directives).forEach(e => Vue.directive(e, directives[e]))
 //全部注册directives中指令
+
+Vue.mixin(permission)
 
 Object.keys(filters).forEach(e => Vue.filter(e, filters[e]))
 

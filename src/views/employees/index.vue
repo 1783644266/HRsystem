@@ -6,7 +6,7 @@
         <template slot="after">
           <el-button size="small" type="warning" @click="$router.push('/import')">导入</el-button>
           <el-button size="small" type="danger" @click="exportData">导出</el-button>
-          <el-button size="small" type="primary" @click="dialogVisible = true">新增员工</el-button>        
+          <el-button v-if="checkPermission('POINT-USER-ADD')" size="small" type="primary" @click="dialogVisible = true">新增员工</el-button>        
         </template>
       </pageTools>
       <el-card style="margin: 0 10px;">
@@ -43,12 +43,12 @@
           </el-table-column>
           <el-table-column align="center" label="操作" sortable fixed="right" width="280">
             <template v-slot="{row}">
-              <el-button type="text" size="small" @click="$router.push(`/employees/detail/${row.id}`)">查看</el-button>
+              <el-button v-if="checkPermission('POINT-USER-UPDATE')" type="text" size="small" @click="$router.push(`/employees/detail/${row.id}`)">查看</el-button>
               <el-button type="text" size="small">转正</el-button>
               <el-button type="text" size="small">调岗</el-button>
               <el-button type="text" size="small">离职</el-button>
               <el-button type="text" size="small" @click="showRoleDialog(row)">角色</el-button>
-              <el-button type="text" size="small" @click="delEmployee(row)">删除</el-button>
+              <el-button v-if="checkPermission('point-user-delete')" type="text" size="small" @click="delEmployee(row)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>

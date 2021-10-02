@@ -2,7 +2,7 @@
   <div class="dashboard-container" v-loading="loading">
     <div class="app-container">
       <el-card class="tree-card">
-        <treeTool :data="company" :need="false" @addDepartment="showDialog" />
+        <treeTool :data="company" :need="false" @addDepartment="showDialog"  />
         <el-tree :data="data" :expand-on-click-node="false" >
           <treeTool
             slot-scope="{ data }"
@@ -10,7 +10,7 @@
             @hasdeleted="getDepartments"
             @addDepartment="showDialog"
             @editDepartment="editDepartment"/>
-        </el-tree>    
+        </el-tree>
       </el-card> 
     </div>
     <addDepartment
@@ -83,8 +83,4 @@ export default {
     }
   }
 }
-
-
-
-
 </style>

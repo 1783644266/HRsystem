@@ -7,6 +7,8 @@
     <!-- <breadcrumb class="breadcrumb-container" /> -->
 
     <div class="right-menu">
+      <el-color-picker @change="changeColor" v-model="themeColor" style="width: 20px;height: 20px;"></el-color-picker>
+      <SvgIcon :iconClass="isFullscreen ?'exit-fullscreen':'fullscreen'" @click="toggleScreenFull" style="color: #fff;width: 20px;height: 20px;margin: 0 10px;" />
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
           <img v-imgError="defaultImg" :src="userInfo.staffPhoto" class="user-avatar">
@@ -34,13 +36,19 @@
 <script>
 import { mapGetters } from 'vuex'
 // import Breadcrumb from '@/components/Breadcrumb'
-import Hamburger from '@/components/Hamburger';
-import variables from '@/styles/variables.scss';
+import Hamburger from '@/components/Hamburger'
+import variables from '@/styles/variables.scss'
+import ScreenFull from 'screenfull'
 
 export default {
+  mounted() {
+    this.themeColor = variables.menuBg.substr(variables.menuBg.indexOf('#'), 7)
+  },
   data() {
     return {
-      defaultImg: require('@/assets/common/head.jpg') //以require引入防止因环境变化出错
+      defaultImg: require('@/assets/common/head.jpg'), //以require引入防止因环境变化出错
+      isFullscreen: false,
+      themeColor: null
     }
   },
   components: {
@@ -58,8 +66,20 @@ export default {
     }
   },
   methods: {
+    changeColor(val) {
+      document.getElementsByTagName('body')[0].style.setProperty('--testColor', val);
+    }, // 变化背景颜色
     toggleSideBar() {
       this.$store.dispatch('app/toggleSideBar')
+    },
+    toggleScreenFull() {
+      if (!ScreenFull.isEnabled) {
+        // 此时全屏不可用
+        this.$message.warning('此时全屏组件不可用')
+        return
+      }
+      ScreenFull.toggle()
+      ScreenFull.on('change', () => this.isFullscreen =  ScreenFull.isFullscreen );
     },
     async logout() {
       await this.$store.dispatch('user/logout')
@@ -98,7 +118,8 @@ export default {
     float: right;
     height: 100%;
     line-height: 50px;
-
+    display: flex;
+    align-items: center;
     &:focus {
       outline: none;
     }
@@ -152,5 +173,9 @@ export default {
       }
     }
   }
+}
+::v-deep .el-color-picker__trigger {
+  width: 20px;
+  height: 20px;
 }
 </style>

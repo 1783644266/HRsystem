@@ -1,6 +1,12 @@
 <template>
-  <el-row type="flex" justify="space-between" align="middle" style="height: 40px; width: 100%">
+  <el-row type="flex"
+    justify="space-between"
+    align="middle"
+    style="height: 40px; width: 100%"
+    :class="{treeTool: !need}"
+  >
     <el-col>
+      <i class="el-icon-user-solid"></i>
       <span>{{data.name}}</span>
     </el-col>
     <el-col :span="4">
@@ -60,4 +66,7 @@ export default {
 </script>
 
 <style scoped>
+.treeTool {
+  border-bottom: 1px solid rgba(133, 131, 131, .3);
+}
 </style>
