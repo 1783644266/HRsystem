@@ -15,6 +15,7 @@ const mutations = {
   removeToken(state) {
     state.token = null;
     removeToken();
+    removeTimeKey()
   },
   setUserInfo(state, userInfo) {
     state.userInfo = {...userInfo} //触发更新

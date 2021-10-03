@@ -10,8 +10,6 @@ const mutations = {
 }
 const actions = {
   setRoleRoutes(context, menus) {
-    console.log(asyncRoutes);
-    console.log(menus);
     const routes = asyncRoutes.filter(e => menus.some(menu => menu == e.name))
     context.commit('setRoutes', routes)
     return routes

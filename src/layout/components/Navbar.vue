@@ -7,6 +7,7 @@
     <!-- <breadcrumb class="breadcrumb-container" /> -->
 
     <div class="right-menu">
+      <lang style="margin: 0 5px" />
       <el-color-picker @change="changeColor" v-model="themeColor" style="width: 20px;height: 20px;"></el-color-picker>
       <SvgIcon :iconClass="isFullscreen ?'exit-fullscreen':'fullscreen'" @click="toggleScreenFull" style="color: #fff;width: 20px;height: 20px;margin: 0 10px;" />
       <el-dropdown class="avatar-container" trigger="click">
